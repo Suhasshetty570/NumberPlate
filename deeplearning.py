@@ -3,6 +3,9 @@ import cv2
 import matplotlib.pyplot as plt
 import pytesseract as pt
 
+# Configure the path to the Tesseract executable installed by the APT buildpack
+pt.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
+
 
 # LOAD YOLO MODEL
 INPUT_WIDTH =  640
