@@ -4,6 +4,5 @@ matplotlib
 pytesseract
 opencv-python
 Flask
-os
 gunicorn
-# Comment
+
