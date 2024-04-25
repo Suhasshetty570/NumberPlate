@@ -1,8 +1,8 @@
 numpy
 pandas
 matplotlib
-cv2
 pytesseract
+opencv-python
 Flask
 os
 gunicorn
