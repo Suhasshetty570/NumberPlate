@@ -1,17 +1,26 @@
-FROM python:3.7
+# Use an official Python runtime as a parent image
+FROM python:3.7-slim
 
-# Copy the local code to the container image.
-COPY . /app
-
-# Set the working directory in the container.
+# Set the working directory in the container
 WORKDIR /app
 
-# Install dependencies.
+# Install system dependencies for OpenCV and pytesseract
+RUN apt-get update && \
+    apt-get install -y libopencv-dev tesseract-ocr libtesseract-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Inform Docker that the container listens on the specified port at runtime.
-# Note: The PORT environment variable should be set by the runtime environment (like Heroku).
+# Make port available to the world outside this container
 EXPOSE $PORT
 
-# Command to run the application using Gunicorn.
+# Define environment variable
+ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata
+
+# Run app.py when the container launches
 CMD gunicorn --workers=2 --threads=4 --bind 0.0.0.0:$PORT app:app
